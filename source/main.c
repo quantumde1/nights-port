@@ -17,7 +17,7 @@ int main() {
     camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
     camera.fovy = 45.0f;
     camera.projection = CAMERA_PERSPECTIVE;
-    float cameraAngle = 90.0f;
+    short cameraAngle = 90;
     int currentTime = 0;
     int overallTime = 120;
     //Model world = LoadWorldModel("res/test.glb");
