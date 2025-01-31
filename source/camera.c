@@ -11,13 +11,15 @@ void SwitchCameraTo2dot5D(Camera3D *camera, short isNights, short *cameraAngle) 
     }
 }
 
-void RotateCamera(Camera3D *camera, Vector3 *characterPosition, short *cameraAngle) {
+void RotateCamera(Camera3D *camera, Vector3 *characterPosition, short *cameraAngle, short isNights) {
     const short rotationSpeed = 2;
-    if (IsKeyDown(KEY_LEFT)) {
-        *cameraAngle -= rotationSpeed;
-    }
-    if (IsKeyDown(KEY_RIGHT)) {
-        *cameraAngle += rotationSpeed;
+    if (isNights == 0) {
+        if (IsKeyDown(KEY_LEFT)) {
+            *cameraAngle -= rotationSpeed;
+        }
+        if (IsKeyDown(KEY_RIGHT)) {
+            *cameraAngle += rotationSpeed;
+        }
     }
     *cameraAngle %= 360;
     camera->position.x = characterPosition->x + 10 * cosf(DEG2RAD * (*cameraAngle));

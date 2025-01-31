@@ -15,5 +15,5 @@ void MoveCharacter3D(Vector3 *position, Camera3D *camera, short isNights);
 void JumpCharacter3D(Vector3 *position, Camera3D *camera);
 
 // camera
-void RotateCamera(Camera3D *camera, Vector3 *characterPosition, short *cameraAngle);
+void RotateCamera(Camera3D *camera, Vector3 *characterPosition, short *cameraAngle, short isNights);
 void SwitchCameraTo2dot5D(Camera3D *camera, short isNights, short *cameraAngle);

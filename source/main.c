@@ -58,7 +58,7 @@ int main() {
                 DrawCharacter(characterPosition, "res/test.glb");
                 MoveCharacter3D(&characterPosition, &camera, isNights);
                 JumpCharacter3D(&characterPosition, &camera);
-                RotateCamera(&camera, &characterPosition, &cameraAngle);
+                RotateCamera(&camera, &characterPosition, &cameraAngle, isNights);
                 EndMode3D();
                 EndDrawing();
                 break;
