@@ -20,6 +20,7 @@ int main() {
     short cameraAngle = 90;
     short currentTime = 0;
     short overallTime = 120;
+    short nightsStartTime;
     //Model world = LoadWorldModel("res/test.glb");
     short ideyaCounter = 0;
     short pointCounter = 0;
@@ -34,29 +35,36 @@ int main() {
     while (WindowShouldClose() == false) {
         screenHeight = GetScreenHeight();
         screenWidth = GetScreenWidth();
-        if (gameState == 0) {
-            BeginDrawing();
-            GraphicalMenu(screenWidth, screenHeight, &gameState);
-            EndDrawing();
-        } else if (gameState == 1) {
-            BeginDrawing();
-            ClearBackground(RAYWHITE);
-            HUD(isNights, pointCounter, ideyaCounter, currentTime, overallTime, screenWidth, screenHeight);
-            BeginMode3D(camera);
-            DrawGrid(10, 1.0f);
-            if (IsKeyPressed(KEY_C)) {
-                isNights = 1;
-            }
-            if (isNights == 1) {
-                currentTime = (int)GetTime();
-            }
-            SwitchCameraTo2dot5D(&camera, isNights, &cameraAngle);
-            DrawCharacter(characterPosition, "res/test.glb");
-            MoveCharacter3D(&characterPosition, &camera, isNights);
-            JumpCharacter3D(&characterPosition, &camera);
-            RotateCamera(&camera, &characterPosition, &cameraAngle);
-            EndMode3D();
-            EndDrawing();
+        switch (gameState) {
+            case 0:
+                BeginDrawing();
+                GraphicalMenu(screenWidth, screenHeight, &gameState);
+                EndDrawing();
+                break;
+            case 1:
+                BeginDrawing();
+                ClearBackground(RAYWHITE);
+                HUD(isNights, pointCounter, ideyaCounter, currentTime, overallTime, screenWidth, screenHeight);
+                BeginMode3D(camera);
+                DrawGrid(10, 1.0f);
+                if (IsKeyPressed(KEY_C)) {
+                    nightsStartTime = (short)GetTime();
+                    isNights = 1;
+                }
+                if (isNights == 1) {
+                    currentTime = (short)(GetTime() - nightsStartTime);
+                }
+                SwitchCameraTo2dot5D(&camera, isNights, &cameraAngle);
+                DrawCharacter(characterPosition, "res/test.glb");
+                MoveCharacter3D(&characterPosition, &camera, isNights);
+                JumpCharacter3D(&characterPosition, &camera);
+                RotateCamera(&camera, &characterPosition, &cameraAngle);
+                EndMode3D();
+                EndDrawing();
+                break;
+            case 2:
+                currentTime = overallTime-(short)GetTime();
+                break;
         }
     }
 

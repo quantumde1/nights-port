@@ -39,7 +39,8 @@ void MoveCharacter3D(Vector3 *position, Camera3D *camera, short isNights) {
         camera->position.z += movementSpeed*horizontal;
         camera->position.x += movementSpeed*vertical;
         camera->target = (Vector3){ position->x, position->y, position->z };
-    } else {
+    }
+    if (isNights == 1) {
         position->y += movementSpeed*-(horizontal);
         position->x += movementSpeed*vertical;
         camera->position.y += movementSpeed*-(horizontal);
