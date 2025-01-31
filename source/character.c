@@ -4,7 +4,7 @@ void DrawCharacter(Vector3 initialPosition, char* modelPath) {
     DrawCube(initialPosition, 2.0f, 2.0f, 2.0f, RED);
 }
 
-void MoveCharacter3D(Vector3 *position, Camera3D *camera) {
+void MoveCharacter3D(Vector3 *position, Camera3D *camera, int isNights) {
     float movementSpeed = 0.2f;
     /*
      * -1 - a pressed
@@ -33,11 +33,19 @@ void MoveCharacter3D(Vector3 *position, Camera3D *camera) {
     else if (IsKeyDown(KEY_D)) {
         vertical = 1;
     }
-    position->z += movementSpeed*horizontal;
-    position->x += movementSpeed*vertical;
-    camera->position.z += movementSpeed*horizontal;
-    camera->position.x += movementSpeed*vertical;
-    camera->target = (Vector3){ position->x, position->y, position->z };
+    if (isNights == 0) {
+        position->z += movementSpeed*horizontal;
+        position->x += movementSpeed*vertical;
+        camera->position.z += movementSpeed*horizontal;
+        camera->position.x += movementSpeed*vertical;
+        camera->target = (Vector3){ position->x, position->y, position->z };
+    } else {
+        position->y += movementSpeed*-(horizontal);
+        position->x += movementSpeed*vertical;
+        camera->position.y += movementSpeed*-(horizontal);
+        camera->position.x += movementSpeed*vertical;
+        camera->target = (Vector3){ position->x, position->y, position->z };
+    }
 }
 
 void JumpCharacter3D(Vector3 *position, Camera3D *camera) {

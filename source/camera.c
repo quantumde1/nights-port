@@ -1,8 +1,14 @@
 #include <raylib.h>
 #include <math.h>
 
-void SwitchCameraTo25D(Camera3D *camera) {
-
+void SwitchCameraTo2dot5D(Camera3D *camera, int isNights, float *cameraAngle) {
+    if (isNights == 1) {
+        *cameraAngle = 90.0f;
+        camera->position = (Vector3){0.0f, 1.5f, 10.0f};
+        camera->target = (Vector3){0.0f, 0.0f, 0.0f};
+        camera->up = (Vector3){0.0f, 1.0f, 0.0f};
+        camera->fovy = 90.0f;
+    }
 }
 
 void RotateCamera(Camera3D *camera, Vector3 *characterPosition, float *cameraAngle) {

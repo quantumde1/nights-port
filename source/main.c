@@ -37,12 +37,18 @@ int main() {
         if (gameState != 0) {
             BeginDrawing();
             ClearBackground(RAYWHITE);
-            currentTime = (int)GetTime();
             HUD(isNights, pointCounter, ideyaCounter, currentTime, overallTime, screenWidth, screenHeight);
             BeginMode3D(camera);
             DrawGrid(10, 1.0f);
+            if (IsKeyPressed(KEY_C)) {
+                isNights = 1;
+            }
+            if (isNights) {
+                currentTime = (int)GetTime();
+            }
+            SwitchCameraTo2dot5D(&camera, isNights, &cameraAngle);
             DrawCharacter(characterPosition, "res/test.glb");
-            MoveCharacter3D(&characterPosition, &camera);
+            MoveCharacter3D(&characterPosition, &camera, isNights);
             JumpCharacter3D(&characterPosition, &camera);
             RotateCamera(&camera, &characterPosition, &cameraAngle);
             EndMode3D();
