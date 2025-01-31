@@ -1,12 +1,12 @@
 #include "raylib.h"
 
-void StartScreen(int screenWidth, int screenHeight, int *gameState);
+void StartScreen(int screenWidth, int screenHeight, short *gameState);
 
-void GraphicalMenu(int screenWidth, int screenHeight, int *gameState) {
+void GraphicalMenu(int screenWidth, int screenHeight, short *gameState) {
     StartScreen(screenWidth, screenHeight, gameState);
 }
 
-void StartScreen(int screenWidth, int screenHeight, int *gameState) {
+void StartScreen(int screenWidth, int screenHeight, short *gameState) {
     ClearBackground(BLACK);
     char *text = "Start game";
     int textWidth = MeasureText(text, 30);

@@ -4,7 +4,7 @@ void DrawCharacter(Vector3 initialPosition, char* modelPath) {
     DrawCube(initialPosition, 2.0f, 2.0f, 2.0f, RED);
 }
 
-void MoveCharacter3D(Vector3 *position, Camera3D *camera, int isNights) {
+void MoveCharacter3D(Vector3 *position, Camera3D *camera, short isNights) {
     float movementSpeed = 0.2f;
     /*
      * -1 - a pressed

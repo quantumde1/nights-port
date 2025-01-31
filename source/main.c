@@ -5,8 +5,8 @@
 int main() {
     printf("%s\n", "entered main loop");
     printf("%s\n", "setting screen size");
-    int screenWidth = GetScreenWidth();
-    int screenHeight = GetScreenHeight();
+    short screenWidth = GetScreenWidth();
+    short screenHeight = GetScreenHeight();
     printf("%s\n", "screen setup started");
     InitWindow(screenWidth, screenHeight, "NiGHTS into Dreams...");
     SetTargetFPS(60);
@@ -18,23 +18,27 @@ int main() {
     camera.fovy = 45.0f;
     camera.projection = CAMERA_PERSPECTIVE;
     short cameraAngle = 90;
-    int currentTime = 0;
-    int overallTime = 120;
+    short currentTime = 0;
+    short overallTime = 120;
     //Model world = LoadWorldModel("res/test.glb");
-    int ideyaCounter = 0;
-    int pointCounter = 0;
+    short ideyaCounter = 0;
+    short pointCounter = 0;
     Vector3 characterPosition = { 0.0, 0.0, 0.0 };
-    int isNights = 0; // 0 means Elliot/Claris, 1 means NiGHTS
+    short isNights = 0; // 0 means Elliot/Claris, 1 means NiGHTS
     /* 0 - in menu
      * 1 - at level
      * 2 - at bossfight
      * 3 - at results
     */
-    int gameState = 0;
+    short gameState = 0;
     while (WindowShouldClose() == false) {
         screenHeight = GetScreenHeight();
         screenWidth = GetScreenWidth();
-        if (gameState != 0) {
+        if (gameState == 0) {
+            BeginDrawing();
+            GraphicalMenu(screenWidth, screenHeight, &gameState);
+            EndDrawing();
+        } else if (gameState == 1) {
             BeginDrawing();
             ClearBackground(RAYWHITE);
             HUD(isNights, pointCounter, ideyaCounter, currentTime, overallTime, screenWidth, screenHeight);
@@ -43,7 +47,7 @@ int main() {
             if (IsKeyPressed(KEY_C)) {
                 isNights = 1;
             }
-            if (isNights) {
+            if (isNights == 1) {
                 currentTime = (int)GetTime();
             }
             SwitchCameraTo2dot5D(&camera, isNights, &cameraAngle);
@@ -52,10 +56,6 @@ int main() {
             JumpCharacter3D(&characterPosition, &camera);
             RotateCamera(&camera, &characterPosition, &cameraAngle);
             EndMode3D();
-            EndDrawing();
-        } else {
-            BeginDrawing();
-            GraphicalMenu(screenWidth, screenHeight, &gameState);
             EndDrawing();
         }
     }
