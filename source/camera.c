@@ -1,7 +1,7 @@
 #include <raylib.h>
 #include <math.h>
 
-void SwitchCameraTo2dot5D(Camera3D *camera, short isNights, short *cameraAngle) {
+void SwitchCameraTo2dot5D(Camera3D *camera, int isNights, int *cameraAngle) {
     if (isNights == 1) {
         *cameraAngle = 90;
         camera->position = (Vector3){0.0f, 1.5f, 10.0f};
@@ -11,8 +11,8 @@ void SwitchCameraTo2dot5D(Camera3D *camera, short isNights, short *cameraAngle) 
     }
 }
 
-void RotateCamera(Camera3D *camera, Vector3 *characterPosition, short *cameraAngle, short isNights) {
-    const short rotationSpeed = 2;
+void RotateCamera(Camera3D *camera, Vector3 *characterPosition, int *cameraAngle, int isNights) {
+    const int rotationSpeed = 2;
     if (isNights == 0) {
         if (IsKeyDown(KEY_LEFT)) {
             *cameraAngle -= rotationSpeed;

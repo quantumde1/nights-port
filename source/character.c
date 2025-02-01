@@ -5,9 +5,9 @@ void DrawCharacter(Vector3 initialPosition, char* modelPath) {
     DrawCube(initialPosition, 2.0f, 2.0f, 2.0f, RED);
 }
 
-void MoveCharacter3D(Vector3 *position, Camera3D *camera, short isNights) {
+void MoveCharacter3D(Vector3 *position, Camera3D *camera, int isNights) {
     static float currentSpeed = 0.0f;
-    const float maxSpeed = 0.26f;
+    const float maxSpeed = 0.29f;
     const float acceleration = 0.013f;
     const float deceleration = 0.013f;
     float movementSpeed = 0.2f;
@@ -23,15 +23,21 @@ void MoveCharacter3D(Vector3 *position, Camera3D *camera, short isNights) {
         position->x += movementSpeed * vertical;
         camera->position.z += movementSpeed * horizontal;
         camera->position.x += movementSpeed * vertical;
-    } else {
+    } else if (isNights == 1) {
         if (horizontal != 0 || vertical != 0) {
             currentSpeed = fminf(currentSpeed + acceleration, maxSpeed);
         } else {
             currentSpeed = fmaxf(currentSpeed - deceleration, 0.0f);
         }
+        if (position->y >= 7.0f) {
+            camera->position.y = 7.0f;
+        } else if (position->y <= -7.0f) {
+            camera->position.y = -7.0f;
+        } else {
+            camera->position.y += position->y;
+        }
         position->y += currentSpeed * -horizontal;
         position->x += currentSpeed * vertical;
-        camera->position.y += position->y;
         camera->position.x += currentSpeed * vertical;
     }
     camera->target = *position;

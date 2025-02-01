@@ -5,8 +5,8 @@
 int main() {
     printf("%s\n", "entered main loop");
     printf("%s\n", "setting screen size");
-    short screenWidth = GetScreenWidth();
-    short screenHeight = GetScreenHeight();
+    int screenWidth = GetScreenWidth();
+    int screenHeight = GetScreenHeight();
     printf("%s\n", "screen setup started");
     InitWindow(screenWidth, screenHeight, "NiGHTS into Dreams...");
     SetTargetFPS(60);
@@ -17,21 +17,21 @@ int main() {
     camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
     camera.fovy = 45.0f;
     camera.projection = CAMERA_PERSPECTIVE;
-    short cameraAngle = 90;
-    short currentTime = 0;
-    short overallTime = 120;
-    short nightsStartTime;
+    int cameraAngle = 90;
+    int currentTime = 0;
+    int overallTime = 120;
+    int nightsStartTime;
     //Model world = LoadWorldModel("res/test.glb");
-    short ideyaCounter = 0;
-    short pointCounter = 0;
+    int ideyaCounter = 0;
+    int pointCounter = 0;
     Vector3 characterPosition = { 0.0, 0.0, 0.0 };
-    short isNights = 0; // 0 means Elliot/Claris, 1 means NiGHTS
+    int isNights = 0; // 0 means Elliot/Claris, 1 means NiGHTS
     /* 0 - in menu
      * 1 - at level
      * 2 - at bossfight
      * 3 - at results
     */
-    short gameState = 0;
+    int gameState = 0;
     while (WindowShouldClose() == false) {
         screenHeight = GetScreenHeight();
         screenWidth = GetScreenWidth();
@@ -48,11 +48,11 @@ int main() {
                 BeginMode3D(camera);
                 DrawGrid(10, 1.0f);
                 if (IsKeyPressed(KEY_C)) {
-                    nightsStartTime = (short)GetTime();
+                    nightsStartTime = (int)GetTime();
                     isNights = 1;
                 }
                 if (isNights == 1) {
-                    currentTime = (short)(GetTime() - nightsStartTime);
+                    currentTime = (int)(GetTime() - nightsStartTime);
                 }
                 SwitchCameraTo2dot5D(&camera, isNights, &cameraAngle);
                 DrawCharacter(characterPosition, "res/test.glb");
@@ -63,7 +63,7 @@ int main() {
                 EndDrawing();
                 break;
             case 2:
-                currentTime = overallTime-(short)GetTime();
+                currentTime = overallTime-(int)GetTime();
                 break;
         }
     }
