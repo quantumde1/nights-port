@@ -29,13 +29,7 @@ void MoveCharacter3D(Vector3 *position, Camera3D *camera, int isNights) {
         } else {
             currentSpeed = fmaxf(currentSpeed - deceleration, 0.0f);
         }
-        if (position->y >= 7.0f) {
-            camera->position.y = 7.0f;
-        } else if (position->y <= -7.0f) {
-            camera->position.y = -7.0f;
-        } else {
-            camera->position.y += position->y;
-        }
+        camera->position.y += position->y-(position->y*0.2);
         position->y += currentSpeed * -horizontal;
         position->x += currentSpeed * vertical;
         camera->position.x += currentSpeed * vertical;
