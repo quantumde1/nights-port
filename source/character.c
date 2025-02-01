@@ -7,9 +7,9 @@ void DrawCharacter(Vector3 initialPosition, char* modelPath) {
 
 void MoveCharacter3D(Vector3 *position, Camera3D *camera, int isNights) {
     static float currentSpeed = 0.0f;
-    const float maxSpeed = 0.29f;
-    const float acceleration = 0.013f;
-    const float deceleration = 0.013f;
+    const float maxSpeed = 0.35f;
+    const float acceleration = 0.016f;
+    const float deceleration = 0.016f;
     float movementSpeed = 0.2f;
 
     int vertical = IsKeyDown(KEY_D) - IsKeyDown(KEY_A);

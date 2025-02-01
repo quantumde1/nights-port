@@ -2,6 +2,8 @@
 #include "raylib.h"
 #include "headers.h"
 
+#define MAX_TRAIL_POINTS 50
+
 int main() {
     printf("%s\n", "entered main loop");
     printf("%s\n", "setting screen size");
@@ -9,6 +11,7 @@ int main() {
     int screenHeight = GetScreenHeight();
     printf("%s\n", "screen setup started");
     InitWindow(screenWidth, screenHeight, "NiGHTS into Dreams...");
+    InitAudioDevice();
     SetTargetFPS(60);
     ToggleFullscreen();
     Camera3D camera = { 0 };
@@ -32,6 +35,8 @@ int main() {
      * 3 - at results
     */
     int gameState = 0;
+    int isEnded = 0; //0 - not ended, 1 - ended
+    Vector3 playerPosition = {0.0f, 0.0f, 0.0f};
     while (WindowShouldClose() == false) {
         screenHeight = GetScreenHeight();
         screenWidth = GetScreenWidth();
@@ -44,7 +49,6 @@ int main() {
             case 1:
                 BeginDrawing();
                 ClearBackground(RAYWHITE);
-                HUD(isNights, pointCounter, ideyaCounter, currentTime, overallTime, screenWidth, screenHeight);
                 BeginMode3D(camera);
                 DrawGrid(10, 1.0f);
                 if (IsKeyPressed(KEY_C)) {
@@ -54,16 +58,31 @@ int main() {
                 if (isNights == 1) {
                     currentTime = (int)(GetTime() - nightsStartTime);
                 }
+                if (IsKeyPressed(KEY_E)) {
+                    gameState = 3;
+                    isEnded = 1;
+                }
                 SwitchCameraTo2dot5D(&camera, isNights, &cameraAngle);
                 DrawCharacter(characterPosition, "res/test.glb");
                 MoveCharacter3D(&characterPosition, &camera, isNights);
                 JumpCharacter3D(&characterPosition, &camera);
                 RotateCamera(&camera, &characterPosition, &cameraAngle, isNights);
                 EndMode3D();
+                HUD(isNights, pointCounter, ideyaCounter, currentTime, overallTime, screenWidth, screenHeight);
                 EndDrawing();
                 break;
             case 2:
                 currentTime = overallTime-(int)GetTime();
+                break;
+            case 3:
+                ClearBackground(WHITE);
+                BeginDrawing();
+                DrawText("Results:\n",screenWidth/2-MeasureText("Results:\n", 40), screenHeight/2, 40, BLACK);
+                BeginMode3D(camera);
+                SwitchCameraTo2dot5D(&camera, isNights, &cameraAngle);
+                DrawCharacter(characterPosition, "res/test.glb");
+                EndMode3D();
+                EndDrawing();
                 break;
         }
     }
