@@ -13,6 +13,7 @@ void SwitchCameraTo2dot5D(Camera3D *camera, int isNights, int *cameraAngle) {
 
 void RotateCamera(Camera3D *camera, Vector3 *characterPosition, int *cameraAngle, int isNights) {
     const int rotationSpeed = 2;
+    // check is player nights or not
     if (isNights == 0) {
         if (IsKeyDown(KEY_LEFT)) {
             *cameraAngle -= rotationSpeed;

@@ -1,5 +1,6 @@
 #include "raylib.h"
 
+//definitions
 void StartScreen(int screenWidth, int screenHeight, int *gameState);
 
 void GraphicalMenu(int screenWidth, int screenHeight, int *gameState) {

@@ -6,14 +6,17 @@ void DrawTimer(int isNights, int currentTime, int overallTime, int screenWidth, 
 void DrawIdeyas(int ideyaCounter, int screenWidth, int screenHeight);
 void DrawPoints(int pointsCounter, int screenWidth, int screenHeight);
 
+//main function
 void HUD(int isNights, int pointCounter, int ideyaCounter, int currentTime, int overallTime, int screenWidth, int screenHeight) {
     DrawTimer(isNights, currentTime, overallTime, screenWidth, screenHeight);
     DrawIdeyas(ideyaCounter, screenWidth, screenHeight);
     DrawPoints(pointCounter, screenWidth, screenHeight);
 }
 
+//drawing timer
 void DrawTimer(int isNights, int currentTime, int overallTime, int screenWidth, int screenHeight) {
     char text[4];
+    //check for mode
     if (isNights == 0) {
         snprintf(text, sizeof(text), "%d", overallTime);
     } else {
@@ -25,6 +28,7 @@ void DrawTimer(int isNights, int currentTime, int overallTime, int screenWidth, 
     DrawText(text, posX, posY, 40, BLACK);
 }
 
+//drawing ideyas
 void DrawIdeyas(int ideyaCounter, int screenWidth, int screenHeight) {
     char text[4];
     snprintf(text, sizeof(text), "%d", ideyaCounter);
@@ -34,6 +38,7 @@ void DrawIdeyas(int ideyaCounter, int screenWidth, int screenHeight) {
     DrawText(text, posX, posY, 40, BLACK);
 }
 
+//drawing points
 void DrawPoints(int pointsCounter, int screenWidth, int screenHeight) {
     char text[4];
     snprintf(text, sizeof(text), "%d", pointsCounter);

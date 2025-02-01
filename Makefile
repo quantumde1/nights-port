@@ -1,16 +1,34 @@
-# Компилятор и флаги
-CC = cc
-CFLAGS = -O2
-LDFLAGS = -L/usr/lib -lraylib -lm
+# Определение платформы
+ifeq ($(OS), Windows_NT)
+    PLATFORM = WINDOWS
+    CC = x86_64-w64-mingw32-gcc
+    CFLAGS = -O2
+    LDFLAGS = -lwinmm -lgdi32 -luser32 -lopengl32 -L./ -lraylib -lm
+    TARGET = nights.exe
+else
+    UNAME := $(shell uname)
+    ifeq ($(UNAME), Linux)
+        PLATFORM = LINUX
+        CC = gcc
+        CFLAGS = -O2
+        LDFLAGS = -L./ -lraylib -lm
+        TARGET = build/nights
+    else ifeq ($(UNAME), Darwin)
+        PLATFORM = MACOS
+        CC = gcc
+        CFLAGS = -O2 -L./ -lraylib -lm -framework OpenGL -framework Cocoa -framework IOKit
+        LDFLAGS =
+        TARGET = build/nights
+    else
+        $(error Unsupported platform: $(UNAME))
+    endif
+endif
 
 # Папка с исходными файлами
 SRC_DIR = source
 
 # Папка для объектных файлов
 OBJ_DIR = build
-
-# Итоговый исполняемый файл
-TARGET = build/nights
 
 # Находим все исходные файлы в папке source/
 SRCS = $(wildcard $(SRC_DIR)/*.c)
@@ -31,7 +49,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 # Правило для линковки объектных файлов в исполняемый файл
 $(TARGET): $(OBJS)
-	$(CC) $(LDFLAGS) $^ -o $@
+	$(CC) $^ -o $@ $(LDFLAGS)
 
 # Очистка
 clean:
