@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#Author: quantumde1
+#nights.exe
+#Rating=1-5
+export PW_VULKAN_USE="2"
+export PW_WINE_USE="PROTON_LG_9-19"
+export PW_PREFIX_NAME="DEFAULT"
+export PORTPROTON_NAME="nights"
+export FILE_DESCRIPTION=""
+export FILE_SHA256SUM="303ce8510ff7bc41c95e9ad4cc8cd64fdbffd7505b2b4b6d15876b1afa265aae"

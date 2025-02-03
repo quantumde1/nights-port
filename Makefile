@@ -19,6 +19,12 @@ else
         CFLAGS = -O2 -L./ -lraylib -lm -framework OpenGL -framework Cocoa -framework IOKit
         LDFLAGS =
         TARGET = build/nights
+    else ifeq ($(BUILD_WINDOWS), true)
+        PLATFORM = WINDOWS
+        CC = x86_64-w64-mingw32-gcc
+        CFLAGS = -O2
+        LDFLAGS = -lwinmm -lgdi32 -luser32 -lopengl32 -L./ -lraylib -lm
+        TARGET = nights.exe
     else
         $(error Unsupported platform: $(UNAME))
     endif

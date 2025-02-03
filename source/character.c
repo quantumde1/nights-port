@@ -1,7 +1,16 @@
 #include "raylib.h"
 #include <math.h>
+#include <stdio.h>
 
-void DrawCharacter(Vector3 initialPosition, char* modelPath) {
+void writeln(const char* format, ...) {
+    va_list args;
+    va_start(args, format);
+    vprintf(format, args);
+    va_end(args);
+    printf("\n");
+}
+
+void DrawCharacter(Vector3 initialPosition) {
     DrawCube(initialPosition, 2.0f, 2.0f, 2.0f, RED);
 }
 

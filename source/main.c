@@ -1,6 +1,34 @@
 #include <stdio.h>
 #include "raylib.h"
 #include "headers.h"
+#include "rlgl.h"
+
+// Define a struct to store the character's trail
+typedef struct {
+    Vector3 position;
+    float time;
+} TrailPoint;
+
+// Define an array to store the trail points
+#define MAX_TRAIL_POINTS 200
+TrailPoint trailPoints[MAX_TRAIL_POINTS];
+int trailIndex = 0;
+
+// In your main loop, update the trail points
+void UpdateTrail(Vector3 characterPosition) {
+    trailPoints[trailIndex].position = characterPosition;
+    trailPoints[trailIndex].time = GetTime();
+    trailIndex = (trailIndex + 1) % MAX_TRAIL_POINTS;
+}
+
+void DrawTrail() {
+    for (int i = 0; i < MAX_TRAIL_POINTS - 1; i++) {
+        int index = (trailIndex + i) % MAX_TRAIL_POINTS;
+        if (GetTime() - trailPoints[index].time < 1.5f) { // adjust the time to control the trail length
+            DrawLine3D(trailPoints[index].position, trailPoints[(index + 1) % MAX_TRAIL_POINTS].position, GREEN);
+        }
+    }
+}
 
 int main() {
     printf("%s\n", "entered main loop");
@@ -35,12 +63,14 @@ int main() {
      * 3 - at results
     */
     int gameState = 0;
+    rlFrustum(0.01, 0.01, 0.01, 0.01, 0.01, 0.01);
     int isEnded = 0; //0 - not ended, 1 - ended
     int isStartedLevel = 0; //0 - not started, 1 - started
     //music playback, for now its hardcoded, sorry
     Music levelMusic;
     //player position
     Vector3 playerPosition = {0.0f, 0.0f, 0.0f};
+    //Model overworld = LoadWorldModel("resources/spring_valley.glb");
     while (WindowShouldClose() == false) {
         screenHeight = GetScreenHeight();
         screenWidth = GetScreenWidth();
@@ -50,7 +80,7 @@ int main() {
                 GraphicalMenu(screenWidth, screenHeight, &gameState);
                 EndDrawing();
                 break;
-            case 1: //game
+            case 1: // game
                 //first, play and update music
                 if (isStartedLevel == 0) {
                     levelMusic = LoadMusicStream("resources/mystic_forest_4.mp3");
@@ -62,7 +92,6 @@ int main() {
                 BeginDrawing();
                 ClearBackground(RAYWHITE);
                 BeginMode3D(camera);
-                DrawGrid(10, 1.0f);
                 if (IsKeyPressed(KEY_C)) {
                     nightsStartTime = (int)GetTime();
                     isNights = 1;
@@ -70,14 +99,21 @@ int main() {
                 if (isNights == 1) {
                     currentTime = (int)(GetTime() - nightsStartTime);
                 }
+                if (IsKeyPressed(KEY_G)) {
+                    nightsStartTime = 0;
+                    isNights = 0;
+                }
                 if (IsKeyPressed(KEY_E)) {
                     StopMusicStream(levelMusic);
                     UnloadMusicStream(levelMusic);
                     gameState = 3;
                 }
                 SwitchCameraTo2dot5D(&camera, isNights, &cameraAngle);
+                //DrawWorldModel(overworld);
                 DrawCharacter(characterPosition, "res/test.glb");
                 MoveCharacter3D(&characterPosition, &camera, isNights);
+                UpdateTrail(characterPosition);
+                DrawTrail();
                 JumpCharacter3D(&characterPosition, &camera);
                 RotateCamera(&camera, &characterPosition, &cameraAngle, isNights);
                 //drawing UI
