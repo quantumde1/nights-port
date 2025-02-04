@@ -1,52 +1,33 @@
+//os
 #include <stdio.h>
+//raylib
 #include "raylib.h"
-#include "headers.h"
 #include "rlgl.h"
-
-// Define a struct to store the character's trail
-typedef struct {
-    Vector3 position;
-    float time;
-} TrailPoint;
-
-// Define an array to store the trail points
-#define MAX_TRAIL_POINTS 200
-TrailPoint trailPoints[MAX_TRAIL_POINTS];
-int trailIndex = 0;
-
-// In your main loop, update the trail points
-void UpdateTrail(Vector3 characterPosition) {
-    trailPoints[trailIndex].position = characterPosition;
-    trailPoints[trailIndex].time = GetTime();
-    trailIndex = (trailIndex + 1) % MAX_TRAIL_POINTS;
-}
-
-void DrawTrail() {
-    for (int i = 0; i < MAX_TRAIL_POINTS - 1; i++) {
-        int index = (trailIndex + i) % MAX_TRAIL_POINTS;
-        if (GetTime() - trailPoints[index].time < 1.5f) { // adjust the time to control the trail length
-            DrawLine3D(trailPoints[index].position, trailPoints[(index + 1) % MAX_TRAIL_POINTS].position, GREEN);
-        }
-    }
-}
+//engine
+#include "headers/system.h"
+#include "headers/character.h"
+#include "headers/game.h"
+#include "headers/camera.h"
+#include "headers/hud.h"
 
 int main() {
-    printf("%s\n", "entered main loop");
-    printf("%s\n", "setting screen size");
+    writeln("NiGHTS into Dreams -reload- engine started.\nInitializing base variables...");
     int screenWidth = GetScreenWidth();
     int screenHeight = GetScreenHeight();
-    printf("%s\n", "screen setup started");
+    writeln("screen and audio setup started");
     InitWindow(screenWidth, screenHeight, "NiGHTS into Dreams...");
-    InitAudioDevice();
     SetTargetFPS(60);
+    InitAudioDevice();
     ToggleFullscreen();
     //camera setup
+    writeln("setting up camera");
     Camera3D camera = { 0 };
     camera.position = (Vector3){ 0.0f, 8.0f, 15.0f };
     camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
     camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
     camera.fovy = 45.0f;
     camera.projection = CAMERA_PERSPECTIVE;
+    writeln("configuring variables");
     int cameraAngle = 90;
     //timer and counters
     int currentTime = 0;
@@ -63,6 +44,7 @@ int main() {
      * 3 - at results
     */
     int gameState = 0;
+    writeln("configuring frustum");
     rlFrustum(0.01, 0.01, 0.01, 0.01, 0.01, 0.01);
     int isEnded = 0; //0 - not ended, 1 - ended
     int isStartedLevel = 0; //0 - not started, 1 - started
@@ -71,7 +53,10 @@ int main() {
     //player position
     Vector3 playerPosition = {0.0f, 0.0f, 0.0f};
     //Model overworld = LoadWorldModel("resources/spring_valley.glb");
+    writeln("entering main loop");
     while (WindowShouldClose() == false) {
+        char buffer[38];
+        snprintf(buffer, sizeof(buffer), "%f, %f, %f", characterPosition.x, characterPosition.y, characterPosition.z);
         screenHeight = GetScreenHeight();
         screenWidth = GetScreenWidth();
         switch (gameState) {
@@ -119,6 +104,7 @@ int main() {
                 //drawing UI
                 EndMode3D();
                 HUD(isNights, pointCounter, ideyaCounter, currentTime, overallTime, screenWidth, screenHeight);
+                DrawText(buffer, 10, 10, 20, GREEN);
                 EndDrawing();
                 break;
             case 2: //bossfight

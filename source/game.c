@@ -1,8 +1,8 @@
-#include <stdio.h>
 #include "raylib.h"
+#include "headers/system.h"
 
 Model LoadWorldModel(char* model_path) {
-    printf("%s\n", "loading overworld model");
+    writeln("loading overworld model, file: %s", model_path);
     Model world = LoadModel(model_path);
     return world;
 }

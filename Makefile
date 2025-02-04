@@ -2,7 +2,7 @@
 ifeq ($(OS), Windows_NT)
     PLATFORM = WINDOWS
     CC = x86_64-w64-mingw32-gcc
-    CFLAGS = -O2
+    CFLAGS = -O2 -I./source/headers
     LDFLAGS = -lwinmm -lgdi32 -luser32 -lopengl32 -L./ -lraylib -lm
     TARGET = nights.exe
 else
@@ -10,19 +10,19 @@ else
     ifeq ($(UNAME), Linux)
         PLATFORM = LINUX
         CC = gcc
-        CFLAGS = -O2
+        CFLAGS = -O2 -I./source/headers
         LDFLAGS = -L./ -lraylib -lm
         TARGET = build/nights
     else ifeq ($(UNAME), Darwin)
         PLATFORM = MACOS
         CC = gcc
-        CFLAGS = -O2 -L./ -lraylib -lm -framework OpenGL -framework Cocoa -framework IOKit
+        CFLAGS = -O2 -L./ -lraylib -lm -framework OpenGL -framework Cocoa -framework IOKit -I./source/headers
         LDFLAGS =
         TARGET = build/nights
     else ifeq ($(BUILD_WINDOWS), true)
         PLATFORM = WINDOWS
         CC = x86_64-w64-mingw32-gcc
-        CFLAGS = -O2
+        CFLAGS = -O2 -I./source/headers
         LDFLAGS = -lwinmm -lgdi32 -luser32 -lopengl32 -L./ -lraylib -lm
         TARGET = nights.exe
     else
