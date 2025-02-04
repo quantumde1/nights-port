@@ -1,0 +1,16 @@
+{
+    "objects": {
+      "BlueSphere1": {
+        "place": ["1.0", "1.0", "0.0"],
+        "size": "1.0",
+        "color": "BLUE"
+      },
+      "BlueSphere2": {
+        "place": ["10.0", "1.0", "0.0"],
+        "size": "1.0",
+        "color": "BLUE"
+      },
+      "musicLevel": "resources/mystic_forest_4.mp3",
+      "musicBossfight": "resources/loud_scream.mp3"
+    }
+  }

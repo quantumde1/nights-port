@@ -1,5 +1,6 @@
 //os
 #include <stdio.h>
+#include <stdlib.h>
 //raylib
 #include "raylib.h"
 #include "rlgl.h"
@@ -9,6 +10,8 @@
 #include "headers/game.h"
 #include "headers/camera.h"
 #include "headers/hud.h"
+#include "headers/ideya.h"
+#include "headers/scene.h"
 
 int main() {
     writeln("NiGHTS into Dreams -reload- engine started.\nInitializing base variables...");
@@ -49,10 +52,19 @@ int main() {
     int isEnded = 0; //0 - not ended, 1 - ended
     int isStartedLevel = 0; //0 - not started, 1 - started
     //music playback, for now its hardcoded, sorry
-    Music levelMusic;
+    //Music levelMusic;
     //player position
     Vector3 playerPosition = {0.0f, 0.0f, 0.0f};
     //Model overworld = LoadWorldModel("resources/spring_valley.glb");
+    writeln("testing json parser for scenes");
+    // Парсинг JSON и создание сфер
+        // Парсинг JSON
+    SceneData scene = {0};
+    parse_json_file("resources/scenes/test.json", &scene);
+
+    // Загрузка музыки
+    Music levelMusic = LoadMusicStream(scene.musicLevel);
+    Music bossfightMusic = LoadMusicStream(scene.musicBossfight);
     writeln("entering main loop");
     while (WindowShouldClose() == false) {
         char buffer[38];
@@ -67,12 +79,12 @@ int main() {
                 break;
             case 1: // game
                 //first, play and update music
-                if (isStartedLevel == 0) {
+                /*if (isStartedLevel == 0) {
                     levelMusic = LoadMusicStream("resources/mystic_forest_4.mp3");
                     PlayMusicStream(levelMusic);
                     isStartedLevel = 1;
                 }
-                UpdateMusicStream(levelMusic);
+                UpdateMusicStream(levelMusic);*/
                 //3d mode
                 BeginDrawing();
                 ClearBackground(RAYWHITE);
@@ -89,8 +101,8 @@ int main() {
                     isNights = 0;
                 }
                 if (IsKeyPressed(KEY_E)) {
-                    StopMusicStream(levelMusic);
-                    UnloadMusicStream(levelMusic);
+                    /*StopMusicStream(levelMusic);
+                    UnloadMusicStream(levelMusic);*/
                     gameState = 3;
                 }
                 SwitchCameraTo2dot5D(&camera, isNights, &cameraAngle);
@@ -101,6 +113,23 @@ int main() {
                 DrawTrail();
                 JumpCharacter3D(&characterPosition, &camera);
                 RotateCamera(&camera, &characterPosition, &cameraAngle, isNights);
+                //draw spheres
+                for (int i = 0; i < scene.sphere_count; i++) {
+                    DrawDebugBlueSphere(scene.spheres[i].position, scene.spheres[i].size, scene.spheres[i].color);
+                }
+                // Воспроизведение музыки (пример)
+                if (IsKeyPressed(KEY_P)) {
+                    StopMusicStream(bossfightMusic);
+                    PlayMusicStream(levelMusic);
+                }
+                if (IsKeyPressed(KEY_B)) {
+                    StopMusicStream(levelMusic);
+                    PlayMusicStream(bossfightMusic);
+                }
+
+                // Обновление музыки
+                UpdateMusicStream(levelMusic);
+                UpdateMusicStream(bossfightMusic);
                 //drawing UI
                 EndMode3D();
                 HUD(isNights, pointCounter, ideyaCounter, currentTime, overallTime, screenWidth, screenHeight);
@@ -113,11 +142,11 @@ int main() {
             case 3: // level cleared
                 //Setting music, again...
                 if (isEnded == 0) {
-                    levelMusic = LoadMusicStream("resources/peaceful_moment.mp3");
-                    PlayMusicStream(levelMusic);
+                    /*levelMusic = LoadMusicStream("resources/peaceful_moment.mp3");
+                    PlayMusicStream(levelMusic);*/
                     isEnded = 1;
                 }
-                UpdateMusicStream(levelMusic);
+                //UpdateMusicStream(levelMusic);
                 //drawing 2d
                 BeginDrawing();
                 DrawText("Results:\n",screenWidth/2-MeasureText("Results:\n", 40), screenHeight/2, 40, BLACK);
@@ -125,7 +154,9 @@ int main() {
                 break;
         }
     }
-
+    UnloadMusicStream(levelMusic);
+    UnloadMusicStream(bossfightMusic);
+    if (scene.spheres) free(scene.spheres);
     CloseWindow();
     return 0;
 }

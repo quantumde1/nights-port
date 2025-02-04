@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include "headers/system.h"
 
 // Define a struct to store the character's trail
 typedef struct {

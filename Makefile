@@ -3,7 +3,7 @@ ifeq ($(OS), Windows_NT)
     PLATFORM = WINDOWS
     CC = x86_64-w64-mingw32-gcc
     CFLAGS = -O2 -I./source/headers
-    LDFLAGS = -lwinmm -lgdi32 -luser32 -lopengl32 -L./ -lraylib -lm
+    LDFLAGS = -lwinmm -lgdi32 -luser32 -lopengl32 -L./ -lraylib -lm -lcjson
     TARGET = nights.exe
 else
     UNAME := $(shell uname)
@@ -11,7 +11,7 @@ else
         PLATFORM = LINUX
         CC = gcc
         CFLAGS = -O2 -I./source/headers
-        LDFLAGS = -L./ -lraylib -lm
+        LDFLAGS = -L./ -lraylib -lm -lcjson
         TARGET = build/nights
     else ifeq ($(UNAME), Darwin)
         PLATFORM = MACOS
