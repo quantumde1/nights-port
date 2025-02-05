@@ -10,7 +10,6 @@
         "size": "1.0",
         "color": "BLUE"
       },
-      "musicLevel": "resources/mystic_forest_4.mp3",
-      "musicBossfight": "resources/loud_scream.mp3"
+      "musicLevel": "resources/mystic_forest_4.mp3"
     }
   }

@@ -16,7 +16,6 @@ typedef struct {
     SphereData *spheres; // Массив сфер
     int sphere_count;    // Количество сфер
     char musicLevel[256]; // Путь к музыке уровня
-    char musicBossfight[256]; // Путь к музыке босса
 } SceneData;
 
 // Функция для парсинга JSON
@@ -85,11 +84,6 @@ void parse_json_file(const char *filename, SceneData *scene) {
             else if (strcmp(object_name, "musicLevel") == 0) {
                 strncpy(scene->musicLevel, object->valuestring, sizeof(scene->musicLevel) - 1);
                 scene->musicLevel[sizeof(scene->musicLevel) - 1] = '\0'; // Гарантировать завершающий нуль
-            }
-            // Парсинг музыки босса
-            else if (strcmp(object_name, "musicBossfight") == 0) {
-                strncpy(scene->musicBossfight, object->valuestring, sizeof(scene->musicBossfight) - 1);
-                scene->musicBossfight[sizeof(scene->musicBossfight) - 1] = '\0'; // Гарантировать завершающий нуль
             }
         }
     }

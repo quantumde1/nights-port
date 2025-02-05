@@ -22,6 +22,7 @@ int main() {
     SetTargetFPS(60);
     InitAudioDevice();
     ToggleFullscreen();
+    SetGamepadMappings("030000005e040000ea020000050d0000,Xbox Controller,a:b0,b:b1,x:b2,y:b3,back:b6,guide:b8,start:b7,leftstick:b9,rightstick:b10,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,    dpright:h0.2;\n030000004c050000c405000011010000,PS4 Controller,a:b1,b:b2,x:b0,y:b3,back:b8,guide:b12,start:b9,leftstick:b10,rightstick:b11,leftshoulder:b4,rightshoulder:b5,dpup:b11,dpdown:b14,dpleft:b7,dpright:b15,leftx:a0,lefty:a1,rightx:a2,righty:a5,lefttrigger:a3,righttrigger:a4;");
     //camera setup
     writeln("setting up camera");
     Camera3D camera = { 0 };
@@ -64,7 +65,6 @@ int main() {
 
     // Загрузка музыки
     Music levelMusic = LoadMusicStream(scene.musicLevel);
-    Music bossfightMusic = LoadMusicStream(scene.musicBossfight);
     writeln("entering main loop");
     while (WindowShouldClose() == false) {
         char buffer[38];
@@ -78,13 +78,6 @@ int main() {
                 EndDrawing();
                 break;
             case 1: // game
-                //first, play and update music
-                /*if (isStartedLevel == 0) {
-                    levelMusic = LoadMusicStream("resources/mystic_forest_4.mp3");
-                    PlayMusicStream(levelMusic);
-                    isStartedLevel = 1;
-                }
-                UpdateMusicStream(levelMusic);*/
                 //3d mode
                 BeginDrawing();
                 ClearBackground(RAYWHITE);
@@ -119,17 +112,14 @@ int main() {
                 }
                 // Воспроизведение музыки (пример)
                 if (IsKeyPressed(KEY_P)) {
-                    StopMusicStream(bossfightMusic);
                     PlayMusicStream(levelMusic);
                 }
                 if (IsKeyPressed(KEY_B)) {
                     StopMusicStream(levelMusic);
-                    PlayMusicStream(bossfightMusic);
                 }
 
                 // Обновление музыки
                 UpdateMusicStream(levelMusic);
-                UpdateMusicStream(bossfightMusic);
                 //drawing UI
                 EndMode3D();
                 HUD(isNights, pointCounter, ideyaCounter, currentTime, overallTime, screenWidth, screenHeight);
@@ -155,7 +145,6 @@ int main() {
         }
     }
     UnloadMusicStream(levelMusic);
-    UnloadMusicStream(bossfightMusic);
     if (scene.spheres) free(scene.spheres);
     CloseWindow();
     return 0;
