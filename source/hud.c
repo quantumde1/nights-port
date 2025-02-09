@@ -25,7 +25,7 @@ void DrawTimer(int isNights, int currentTime, int overallTime, int screenWidth, 
     int textWidth = MeasureText(text, 40);
     int posY = 70;
     int posX = (screenWidth - textWidth) / 2;
-    DrawText(text, posX, posY, 40, BLACK);
+    DrawText(text, posX, posY, 40, YELLOW);
 }
 
 //drawing ideyas
@@ -35,7 +35,7 @@ void DrawIdeyas(int ideyaCounter, int screenWidth, int screenHeight) {
     int textWidth = MeasureText(text, 40);
     int posX = (screenWidth - textWidth) / 8;
     int posY = 70;
-    DrawText(text, posX, posY, 40, BLACK);
+    DrawText(text, posX, posY, 40, YELLOW);
 }
 
 //drawing points
@@ -45,5 +45,5 @@ void DrawPoints(int pointsCounter, int screenWidth, int screenHeight) {
     int textWidth = MeasureText(text, 40);
     int posX = screenWidth - textWidth - (screenWidth / 8);
     int posY = 70;
-    DrawText(text, posX, posY, 40, BLACK);
+    DrawText(text, posX, posY, 40, YELLOW);
 }

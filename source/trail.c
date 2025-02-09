@@ -6,7 +6,7 @@ void DrawTrail(Vector2 *trail, int trailLength, int currentIndex) {
         int index = (currentIndex + i) % trailLength;
         int nextIndex = (currentIndex + i + 1) % trailLength;
         if (trail[index].x != 0 && trail[index].y != 0 && trail[nextIndex].x != 0 && trail[nextIndex].y != 0) {
-            DrawLineV(trail[index], trail[nextIndex], Fade(RED, 0.5f));
+            DrawLineV(trail[index], trail[nextIndex], Fade(YELLOW, 255.0f));
         }
     }
 }

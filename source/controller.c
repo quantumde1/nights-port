@@ -39,5 +39,5 @@ void HandleInput(Entity *entity) {
 
 // Function to draw the entity
 void DrawEntity(Entity *entity) {
-    DrawCircleV(entity->position, 20.0f, RED);
+    DrawCircleV(entity->position, 20.0f, YELLOW);
 }
