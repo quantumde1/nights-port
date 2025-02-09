@@ -3,6 +3,8 @@
 #include "headers/types.h"
 #include "headers/level.h"
 
+Enemy enemies[MAX_ENEMIES];
+
 int main() {
     //window init
     int screenWidth = GetScreenWidth();
@@ -30,7 +32,7 @@ int main() {
         UpdateMusicStream(levelMusic);
         screenHeight = GetScreenHeight();
         screenWidth = GetScreenWidth();
-        MainLoop(&player, isNights, pointCounter, ideyaCounter, overallTime, screenWidth, screenHeight, &camera, backgroundTexture);
+        MainLoop(&player, &isNights, &pointCounter, &ideyaCounter, overallTime, screenWidth, screenHeight, &camera, backgroundTexture, enemies);
     }
 
     CloseAudioDevice();

@@ -19,3 +19,15 @@ bool CheckLineIntersection(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4) {
     float ub = ((p2.x - p1.x) * (p1.y - p3.y) - (p2.y - p1.y) * (p1.x - p3.x)) / denominator;
     return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
 }
+
+bool IsPointInPolygon(Vector2 point, Vector2* polygon, int vertexCount) {
+    bool inside = false;
+    for (int i = 0, j = vertexCount-1; i < vertexCount; j = i++) {
+        if (((polygon[i].y > point.y) != (polygon[j].y > point.y)) &&
+            (point.x < (polygon[j].x - polygon[i].x) * (point.y - polygon[i].y) / 
+            (polygon[j].y - polygon[i].y) + polygon[i].x)) {
+            inside = !inside;
+        }
+    }
+    return inside;
+}
