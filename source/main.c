@@ -34,7 +34,8 @@ int main() {
         screenWidth = GetScreenWidth();
         MainLoop(&player, &isNights, &pointCounter, &ideyaCounter, overallTime, screenWidth, screenHeight, &camera, backgroundTexture, enemies);
     }
-
+    UnloadTexture(backgroundTexture);
+    UnloadMusicStream(levelMusic);
     CloseAudioDevice();
     CloseWindow();
     return 0;

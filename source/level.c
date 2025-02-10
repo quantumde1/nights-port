@@ -37,7 +37,7 @@ Camera2D *camera, Texture2D backgroundTexture, Enemy* enemies) {
     BeginMode2D(*camera);
     Vector2 camPos = camera->target;
     Vector2 texSize = { (float)backgroundTexture.width, (float)backgroundTexture.height };
-    float startX = ((camPos.x - (float)screenWidth/2) / texSize.x) - 1;
+    int startX = (int)((camPos.x - screenWidth/2) / texSize.x) - 1;
     float endX = (int)((camPos.x + (float)screenWidth/2) / texSize.x) + 1;
     float startY = (int)((camPos.y - (float)screenHeight/2) / texSize.y) - 1;
     float endY = (int)((camPos.y + (float)screenHeight/2) / texSize.y) + 1;
@@ -61,7 +61,6 @@ Camera2D *camera, Texture2D backgroundTexture, Enemy* enemies) {
             int index3 = (currentIndex + j) % TRAIL_LENGTH;
             int index4 = (currentIndex + j + 1) % TRAIL_LENGTH;
             if (CheckLineIntersection(trail[index1], trail[index2], trail[index3], trail[index4])) {
-                printf("Loop closed!\n");
                 isLoopClosed = true;
                 loopStartIndex = (currentIndex + i) % TRAIL_LENGTH;
             }

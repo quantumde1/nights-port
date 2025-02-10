@@ -5,9 +5,7 @@ void DrawTrail(Vector2 *trail, int trailLength, int currentIndex) {
     for (int i = 0; i < trailLength - 1; i++) {
         int index = (currentIndex + i) % trailLength;
         int nextIndex = (currentIndex + i + 1) % trailLength;
-        if (trail[index].x != 0 && trail[index].y != 0 && trail[nextIndex].x != 0 && trail[nextIndex].y != 0) {
-            DrawLineV(trail[index], trail[nextIndex], Fade(YELLOW, 255.0f));
-        }
+        DrawLineV(trail[index], trail[nextIndex], Fade(YELLOW, 255.0f));
     }
 }
 
@@ -21,6 +19,7 @@ bool CheckLineIntersection(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4) {
 }
 
 bool IsPointInPolygon(Vector2 point, Vector2* polygon, int vertexCount) {
+    if (vertexCount < 3) return false;
     bool inside = false;
     for (int i = 0, j = vertexCount-1; i < vertexCount; j = i++) {
         if (((polygon[i].y > point.y) != (polygon[j].y > point.y)) &&
