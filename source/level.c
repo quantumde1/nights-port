@@ -30,6 +30,8 @@ Camera2D *camera, Texture2D backgroundTexture, Enemy* enemies) {
     static int currentIndex = 0;
     float deltaTime = GetFrameTime();
     float currentTime = GetTime();
+    static double displayLinkTime = 0.0;
+    static int displayLinkNumber = 0;
     camera->target = player->position;
     camera->offset = (Vector2){ screenWidth / 2.0f, screenHeight / 2.0f };
     BeginDrawing();
@@ -76,10 +78,35 @@ Camera2D *camera, Texture2D backgroundTexture, Enemy* enemies) {
             if (idx == currentIndex) break;
         }
         vertexCount = count;
+        int enemiesDestroyedThisFrame = 0;
         for (int i = 0; i < MAX_ENEMIES; i++) {
             if (enemies[i].active && IsPointInPolygon(enemies[i].position, polygon, vertexCount)) {
-                *pointCounter = *pointCounter + 5;
                 enemies[i].active = false;
+                enemiesDestroyedThisFrame++;
+            }
+        }
+
+        // Process link and points
+        if (enemiesDestroyedThisFrame > 0) {
+            static double lastHitTime = 0.0;
+            static int currentLink = 0;
+            double currentTime = GetTime();
+
+            if (currentTime - lastHitTime <= 4.0) {
+                currentLink += enemiesDestroyedThisFrame;
+            } else {
+                currentLink = enemiesDestroyedThisFrame;
+            }
+            if (currentLink > 1) {
+                *pointCounter += (5 + currentLink) * currentLink;
+            } else {
+                *pointCounter += 5 * currentLink;
+            }
+            lastHitTime = currentTime;
+
+            if (currentLink >= 2) {
+                displayLinkNumber = currentLink;
+                displayLinkTime = 2.0; // Display for 2 seconds
             }
         }
         isLoopClosed = false;
@@ -89,5 +116,17 @@ Camera2D *camera, Texture2D backgroundTexture, Enemy* enemies) {
     EndMode2D();
     //HUD
     HUD(*isNights, *pointCounter, *ideyaCounter, currentTime, overallTime, screenWidth, screenHeight);
+    if (displayLinkTime > 0) {
+        char linkText[32];
+        snprintf(linkText, sizeof(linkText), "Link %d", displayLinkNumber);
+        int textWidth = MeasureText(linkText, 40);
+        int posX = (screenWidth - textWidth) / 2;
+        int posY = 150;
+        DrawText(linkText, posX, posY, 40, YELLOW);
+        displayLinkTime -= deltaTime;
+        if (displayLinkTime < 0) {
+            displayLinkTime = 0.0;
+        }
+    }
     EndDrawing();
 }
